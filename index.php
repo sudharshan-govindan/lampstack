@@ -1,10 +1,7 @@
 <?php
-//require_once("credentials.php");
 /* Attempt MySQL server connection. Assuming you are running MySQL
 server with default setting (user 'root' with no password) */
-//echo $HOSTNAME;
 $link = mysqli_connect(getenv('HOSTNAME'),getenv('ROOT_USERNAME'),getenv('ROOT_PASSWORD'),getenv('DB_NAME'));
-//$link = mysqli_connect("192.168.43.225","root","ajay","mydb");
  
 // Check connection
 if($link === false){
@@ -12,28 +9,19 @@ if($link === false){
 }
 $show_result="select * from records";
 $result= mysqli_query($link,$show_result);
-
  
 // Attempt insert query execution
-if(isset($_POST["message"])){
+if(isset($_POST["message"])) {
+    $message=$_POST["message"];
+    $sql = "INSERT INTO records (message) VALUES ('$message')";
+    if(mysqli_query($link, $sql)) {
+        echo '<script>alert("Records inserted successfully")</script>';
+    } else {
+        echo "ERROR: Could not able to execute $sql. " . mysqli_error($link);
+    }
 
-$message=$_POST["message"];
-$sql = "INSERT INTO records (message) VALUES ('$message')";
-if(mysqli_query($link, $sql)){
-    echo '<script>alert("Records inserted successfully")</script>';
-} else{
-    echo "ERROR: Could not able to execute $sql. " . mysqli_error($link);
-}
-
-//$show_result="select * from records";
-//$result= mysqli_query($link,$show_result);
- 
-// Close connection
-//mysqli_close($link);
-//
 }
 ?>
-
 
 <html>
 <head>
